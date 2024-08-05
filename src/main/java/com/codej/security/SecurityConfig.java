@@ -2,6 +2,7 @@ package com.codej.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,8 +25,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
                     // EndPoints publicos
-                    http.requestMatchers("/apiv1/**").authenticated()
-                            .anyRequest().permitAll();
+                    http.requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/api/**").authenticated()
+                            .requestMatchers(HttpMethod.GET,"/api/properties/**").permitAll();
+
+
 
                     // EndPoints Privados
                    /* http.requestMatchers(HttpMethod.GET, "/method/get").hasAuthority("READ");

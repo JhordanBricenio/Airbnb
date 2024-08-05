@@ -1,5 +1,6 @@
 package com.codej.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,6 +32,7 @@ public class Property {
     private List<Review> reviews;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "owner_id")
     private User owner;
 

@@ -1,6 +1,7 @@
 package com.codej.service.impl;
 
 import com.codej.exception.UserException;
+import com.codej.model.Property;
 import com.codej.model.User;
 import com.codej.repository.IUserRepository;
 import com.codej.response.AuthResponse;
@@ -12,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +32,9 @@ public class UserServiceImpl implements IUserService {
         User isExistEmail= userRepository.findByEmail(user.getEmail());
         if(isExistEmail!=null){
             throw new UserException("Email is already exist with email: "+user.getEmail());
-
+        }
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new UserException("Username already exists.");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -52,6 +57,7 @@ public class UserServiceImpl implements IUserService {
         }
         return user;
     }
+
 
     @Override
     public User  findUserProfileByJwt(String jwt) {

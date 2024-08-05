@@ -1,7 +1,10 @@
 package com.codej.service;
 
+import com.codej.model.Property;
 import com.codej.model.User;
 import com.codej.response.AuthResponse;
+
+import java.util.List;
 
 public interface IUserService {
     public AuthResponse save (User user);
